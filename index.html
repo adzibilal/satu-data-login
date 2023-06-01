@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Satu Data</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css" />
+        <link
+            rel="stylesheet"
+            href="https://codepen.io/P1N2O/pen/xxbjYqx.css" />
+        <link rel="stylesheet" href="./style.css" />
+    </head>
+    <body>
+        <div class="login-bg">
+            <canvas id="c"></canvas>
+        </div>
+        <div class="login-form">
+            <div class="login-box">
+                <h1 class="title">INTEGRATED ONE DATA <br> POLDA JABAR</h1>
+
+                <input type="text" placeholder="Masukan Nama Pengguna" /><br>
+                <input type="text" placeholder="Masukan Kata Sandi" />
+
+                <br>
+                <button class="btn-login">MASUK</button>
+
+                <a href="" class="forgot"> Lupa Kata Sandi?</a>
+            </div>
+            <img src="Logo Logo.png" alt="" />
+
+          </div>
+          <p class="version">Satu Data v1.0.0</p>
+
+        <script>
+            // geting canvas by Boujjou Achraf
+            var c = document.getElementById('c')
+            var ctx = c.getContext('2d')
+
+            //making the canvas full screen
+            c.height = window.innerHeight
+            c.width = window.innerWidth
+
+            //chinese characters - taken from the unicode charset
+            var matrix =
+                'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}'
+            //converting the string into an array of single characters
+            matrix = matrix.split('')
+
+            var font_size = 10
+            var columns = c.width / font_size //number of columns for the rain
+            //an array of drops - one per column
+            var drops = []
+            //x below is the x coordinate
+            //1 = y co-ordinate of the drop(same for every drop initially)
+            for (var x = 0; x < columns; x++) drops[x] = 1
+
+            //drawing the characters
+            function draw() {
+                //Black BG for the canvas
+                //translucent BG to show trail
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'
+                ctx.fillRect(0, 0, c.width, c.height)
+
+                ctx.fillStyle = '#fff' //green text
+                ctx.font = font_size + 'px arial'
+                //looping over drops
+                for (var i = 0; i < drops.length; i++) {
+                    //a random chinese character to print
+                    var text = matrix[Math.floor(Math.random() * matrix.length)]
+                    //x = i*font_size, y = value of drops[i]*font_size
+                    ctx.fillText(text, i * font_size, drops[i] * font_size)
+
+                    //sending the drop back to the top randomly after it has crossed the screen
+                    //adding a randomness to the reset to make the drops scattered on the Y axis
+                    if (
+                        drops[i] * font_size > c.height &&
+                        Math.random() > 0.975
+                    )
+                        drops[i] = 0
+
+                    //incrementing Y coordinate
+                    drops[i]++
+                }
+            }
+
+            setInterval(draw, 35)
+        </script>
+    </body>
+</html>
